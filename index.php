@@ -83,14 +83,14 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("	var unpaid = 0");
 		html("	algos.forEach(function(algo, index, arr){");
 		html("		if(algo[\"data\"][1] !== '0'){");
-		html("			unpaid += parseInt(algo[\"data\"][1])");
+		html("			unpaid += parseFloat(algo[\"data\"][1])");
 		html("		}");
 		html("			console.log((algo[\"data\"][1]))");
 		html("		if(algo[\"data\"][0][\"a\"]){");
 		html("			var profitability = algo[\"data\"][0][\"a\"]*algo[\"profitability\"]");
 		html("			console.log(\"Profitability: \"+profitability)");
 		// html("			var speed = algo[\"data\"][0][\"a\"] + \" \"+algo[\"suffix\"]");
-		html("			document.querySelector(\"#youl\").innerHTML += \"<li>\"+algo[\"name\"]+\": \"+profitability+\" BTC/day | \"+(profitability * exrate).toFixed(2) +\"USD/day | \"+ algo[\"data\"][0][\"a\"] + \" \"+algo[\"suffix\"] +\"/s | \"+unpaid+\"</li>\"");
+		html("			document.querySelector(\"#youl\").innerHTML += \"<li>\"+algo[\"name\"]+\": \"+profitability+\" BTC/day | \"+(profitability * exrate).toFixed(2) +\" USD/day | \"+ algo[\"data\"][0][\"a\"] + \" \"+algo[\"suffix\"] +\"/s</li>\"");
 		html("		}");
 		html("		if(index == arr.length -1){");
 		html("			console.log('unpaid: '+unpaid)");
