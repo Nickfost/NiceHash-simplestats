@@ -2,6 +2,7 @@
 if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET["type"] == "json"){
 	// json.php
 	echo file_get_contents("https://www.nicehash.com/api?method=stats.provider.ex&from=".$_GET["from"]."&addr=".$_GET["addr"]);
+
 } else {
 	// functions.php
 	function pooptitle(){
@@ -56,7 +57,7 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("function getdata(addr){");
 		html("	var oReq = new XMLHttpRequest()");
 		html("	oReq.addEventListener(\"load\", function(){dontdoonlytry(this.responseText)})");
-		html("	oReq.open(\"GET\", \"/?from=\"+(new Date().getTime() - 60000)+\"&addr=\"+addr+\"&type=json\")");
+		html("	oReq.open(\"GET\", '".$_SERVER['PHP_SELF']."'+\"/?from=\"+(new Date().getTime() - 60000)+\"&addr=\"+addr+\"&type=json\")");
 		html("	oReq.send()");
 		html("}");
 		html("function checkrate(){");
@@ -120,7 +121,7 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("<script>");
 		html("document.querySelector('#go').addEventListener('click', gotem)");
 		html("function gotem(){");
-		html("	window.location='/?addr='+document.querySelector('#addrbox').value ");
+		html("	window.location=window.location + '?addr='+document.querySelector('#addrbox').value ");
 		html("}");
 		html("</script>");
 	}
