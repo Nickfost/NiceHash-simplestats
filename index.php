@@ -1,7 +1,8 @@
 <?php
 if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET["type"] == "json"){
 	// json.php
-	echo file_get_contents("https://www.nicehash.com/api?method=stats.provider.ex&from=".$_GET["from"]."&addr=".$_GET["addr"]);
+	echo "{ \"nh\":".file_get_contents("https://www.nicehash.com/api?method=stats.provider.ex&from=".$_GET["from"]."&addr=".$_GET["addr"]).", \"md5\":\"".md5(fread(fopen(__FILE__, "r"), 1048576))."\"}";
+
 } else {
 	// functions.php
 	function pooptitle(){
@@ -37,7 +38,7 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 	html("	}");
 	html("</style>");
 	html("</head>");
-	html("<body'>");
+	html("<body>");
 	html("<div style='padding-top: 15%;'>");
 	html("<h3>Nice Hash stats kept simple.</h3>");
 	if($addrset){
@@ -56,7 +57,7 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("function getdata(addr){");
 		html("	var oReq = new XMLHttpRequest()");
 		html("	oReq.addEventListener(\"load\", function(){dontdoonlytry(this.responseText)})");
-		html("	oReq.open(\"GET\", \"/?from=\"+(new Date().getTime() - 60000)+\"&addr=\"+addr+\"&type=json\")");
+		html("	oReq.open(\"GET\", '".$_SERVER['PHP_SELF']."'+\"/?from=\"+(new Date().getTime() - 60000)+\"&addr=\"+addr+\"&type=json\")");
 		html("	oReq.send()");
 		html("}");
 		html("function checkrate(){");
@@ -86,9 +87,23 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("		}");
 		html("	}");
 		html("}");
+		html("var mdfive;");
+		//html("console.log(mdfive)");
 		html("function api(data){");
+		html("	var text = JSON.parse(data)");
+		html("	var json = text.nh");
+		html("	if(!mdfive){");
+		html("		mdfive = text.md5;");
+		//html("		console.log(mdfive)");
+		html("	} else {");
+		html("		if(mdfive !== text.md5){");
+		//html("			console.log('mdfive don\'t match you fucks')");
+		html("			window.location.reload()");
+		html("		}else{");
+		//html("			console.log('md5 is same')");
+		html("		}");
+		html("	}");
 		html("	var totalprofitability = 0");
-		html("	var json = JSON.parse(data)");
 		html("	if(typeof json['result']['error'] == 'string'){");
 		html("		document.querySelector('#youl').innerHTML = \"<li>json['result']['error']</li>\"");
 		html("	} else {");
@@ -120,7 +135,7 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("<script>");
 		html("document.querySelector('#go').addEventListener('click', gotem)");
 		html("function gotem(){");
-		html("	window.location='/?addr='+document.querySelector('#addrbox').value ");
+		html("	window.location=window.location + '?addr='+document.querySelector('#addrbox').value ");
 		html("}");
 		html("</script>");
 	}
