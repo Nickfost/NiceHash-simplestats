@@ -37,7 +37,7 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 	html("	}");
 	html("</style>");
 	html("</head>");
-	html("<body'>");
+	html("<body>");
 	html("<div style='padding-top: 15%;'>");
 	html("<h3>Nice Hash stats kept simple.</h3>");
 	if($addrset){
