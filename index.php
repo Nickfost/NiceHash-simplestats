@@ -88,19 +88,15 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("	}");
 		html("}");
 		html("var mdfive;");
-		//html("console.log(mdfive)");
 		html("function api(data){");
 		html("	var text = JSON.parse(data)");
 		html("	var json = text.nh");
 		html("	if(!mdfive){");
 		html("		mdfive = text.md5;");
-		//html("		console.log(mdfive)");
 		html("	} else {");
 		html("		if(mdfive !== text.md5){");
-		//html("			console.log('mdfive don\'t match you fucks')");
 		html("			window.location.reload()");
 		html("		}else{");
-		//html("			console.log('md5 is same')");
 		html("		}");
 		html("	}");
 		html("	var totalprofitability = 0");
@@ -130,9 +126,12 @@ if(isset($_GET["from"]) && isset($_GET["addr"]) && $_GET["from"] != "" && $_GET[
 		html("</script>");
 	} else {
 		html("<h3>Input your deposit address to see stats</h3>");
+		html("<form id='firm' onsubmit='return false;'>");
 		html("<input type='text' id='addrbox' placeholder='Deposit address' />");
 		html("<input type='button' value='Go!' id='go' />");
+		html("</form>");
 		html("<script>");
+		html("document.querySelector('#firm').addEventListener('submit', gotem)");
 		html("document.querySelector('#go').addEventListener('click', gotem)");
 		html("function gotem(){");
 		html("	window.location=window.location + '?addr='+document.querySelector('#addrbox').value ");
