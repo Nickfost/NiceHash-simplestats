@@ -1,7 +1,7 @@
 <?php
 if(isset($_GET["addr"]) && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET["type"] == "json"){
 	// json.php
-		echo "{ \"nh\":".file_get_contents("https://www.nicehash.com/api?method=stats.provider.ex&from=".$_GET["from"]."&addr=".$_GET["addr"]).", \"md5\":\"".md5(fread(fopen(__FILE__, "r"), 1048576))."\"}";
+		echo "{ \"nh\":".file_get_contents("https://www.nicehash.com/api?method=stats.provider.ex&from=".$_GET["from"]."&addr=".$_GET["addr"]).", \"md5\":\"".md5(fread(fopen(__FILE__, "r"), 1048576))."\", \"under_construction\": ".((time() - filemtime(__FILE__)) < (21600 + 1*60) ? 1 : 0)."}";
 } else {
 	// functions.php
 	function pooptitle(){
@@ -45,7 +45,7 @@ if(isset($_GET["addr"]) && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET[
 	html("</style>");
 	html("</head>");
 	html("<body>");
-	html("<img src='https://upload.wikimedia.org/wikipedia/en/1/1d/Page_Under_Construction.png' style='height:5vw; width:10vw;' class='".(((time() - filemtime(__FILE__)) < (21600 + 15*60)) ? "" : "hidden")."'></img>");
+	html("<img id='under_construction' src='https://upload.wikimedia.org/wikipedia/en/1/1d/Page_Under_Construction.png' style='height:5vw; width:10vw;' class='hidden'></img>");
 	html("<div style='padding-top: 10%;'>");
 	html("<h3>Nice Hash stats kept simple.</h3>");
 	if($addrset){
@@ -106,6 +106,7 @@ if(isset($_GET["addr"]) && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET[
 		html("			window.location.reload();");
 		html("		}");
 		html("	}");
+		html("	document.querySelector('#under_construction').setAttribute('class', (text.under_construction ? '' : 'hidden')); ");
 		html("	var totalprofitability = 0;");
 		html("	if(typeof json['result']['error'] == 'string'){");
 		html("		document.querySelector('#youl').innerHTML = \"<li>json['result']['error']</li>\";");
