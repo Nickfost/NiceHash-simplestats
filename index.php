@@ -1,7 +1,7 @@
 <?php
 if(isset($_GET["addr"]) && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET["type"] == "json"){
 	// json.php
-		echo "{ \"nh\":".file_get_contents("https://www.nicehash.com/api?method=stats.provider.ex&from=".$_GET["from"]."&addr=".$_GET["addr"]).", \"md5\":\"".md5(fread(fopen(__FILE__, "r"), 1048576))."\", \"under_construction\": ".((time() - filemtime(__FILE__)) < (21600 + 1*60) ? 1 : 0)."}";
+		echo "{ \"nh\":".file_get_contents("https://www.nicehash.com/api?method=stats.provider.ex&from=".$_GET["from"]."&addr=".$_GET["addr"]).", \"md5\":\"".md5(fread(fopen(__FILE__, "r"), 1048576))."\", \"under_construction\": ".((time() - filemtime(__FILE__)) < (21600 + 15*60) ? 1 : 0)."}";
 } else {
 	// functions.php
 	function pooptitle(){
