@@ -45,8 +45,8 @@ if(isset($_GET["addr"]) && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET[
 	html("</style>");
 	html("</head>");
 	html("<body>");
-	html("<img id='under_construction' src='https://upload.wikimedia.org/wikipedia/en/1/1d/Page_Under_Construction.png' style='height:5vw; width:10vw;' class='hidden'></img>");
-	html("<div style='padding-top: 10%;'>");
+	html("<img id='under_construction' src='https://upload.wikimedia.org/wikipedia/en/1/1d/Page_Under_Construction.png' style='height:10vw; width:20vw;' class='hidden'></img>");
+	html("<div style='padding-top: 0%;'>");
 	html("<h3>Nice Hash stats kept simple.</h3>");
 	if($addrset){
 		html("<h4 id=\"addr\">".$_GET["addr"]."</h4>");
@@ -59,13 +59,19 @@ if(isset($_GET["addr"]) && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET[
 		html("</tbody>");
 		html("</table>");
 		html("<p id='unpaid' style='margin: 0px 0px 0px 0px;'>Loading...</p>");
-		html("<ul id='paymentsbox'></ul>");
+		html("<table style='margin: auto;'>");
+		html("<th>Amount(BTC)</th>");
+		html("<th>Amount(USD)</th>");
+		html("<th>Time</th>");
+		html("<tbody id='paymentsbox'>");
+		html("</tbody>");
+		html("</table>");
 		html("<script>");
 		html("window.onload = function(){window.ratedate = 10; checkrate();};");
 		html("function getdata(addr){");
 		html("	var oReq = new XMLHttpRequest();");
 		html("	oReq.addEventListener(\"load\", function(){dontdoonlytry(this.responseText)});");
-		html("	oReq.open(\"GET\", '".$_SERVER['PHP_SELF']."'+\"/?from=\"+(new Date().getTime() - 30000)+\"&addr=\"+addr+\"&type=json\");");
+		html("	oReq.open(\"GET\", '".$_SERVER['PHP_SELF']."'+\"/?from=0&addr=\"+addr+\"&type=json\");");
 		html("	oReq.send();");
 		html("}");
 		html("function checkrate(){");
@@ -129,6 +135,11 @@ if(isset($_GET["addr"]) && $_GET["addr"] != "" && isset($_GET["type"]) && $_GET[
 		html("			var update = setTimeout(checkrate, 30000);");
 		html("		}");
 		html("	});");
+		html("		document.querySelector('#paymentsbox').innerHTML = '';");
+		html("		console.log(new Date().toDateString()+' '+new Date().toLocaleTimeString());");
+		html("		json['result']['payments'].forEach(function(val, ind, arr){");
+		html("			this.innerHTML += '<tr><td>'+(val.amount)+'</td><td>'+(val.amount*exrate).toFixed(2)+'</td><td>'+(new Date(val.time*1000)).toDateString()+' '+new Date(val.time*1000).toLocaleTimeString()+'</td></tr>';");;
+		html("		}, document.querySelector('#paymentsbox'));");
 		html("	}");
 		html("}");
 		html("</script>");
